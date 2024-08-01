@@ -1,0 +1,1 @@
+Personal data, logging and bcrypt practices
