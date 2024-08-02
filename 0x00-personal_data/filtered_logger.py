@@ -33,15 +33,17 @@ class RedactingFormatter(logging.Formatter):
         return super().format(record)
 
 
-PII_FIELDS = ("email", "phone", "ssn", "password", "ip")
+PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
 
 def get_logger() -> logging.Logger:
     """Get a logger object"""
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
+    logger.propagate = False
+
     handler = logging.StreamHandler()
-    handler.setLevel(logging.INFO)
     handler.setFormatter(RedactingFormatter(PII_FIELDS))
     logger.addHandler(handler)
+
     return logger
