@@ -4,7 +4,6 @@ import logging
 import re
 import os
 import mysql.connector
-from datetime import datetime
 from typing import List
 
 
@@ -64,3 +63,21 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         password=password
     )
     return connection
+
+
+def main() -> None:
+    """Main control flow"""
+    db = get_db()
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM users")
+    rows = cursor.fetchall()
+    for row in rows:
+        log_message = "; ".join(
+                f"{key}={row[key]}" if key not in PII_FIELDS else f"{key}=***"
+                for key in row
+            )
+        print(log_message)
+
+
+if __name__ == "__main__":
+    main()
