@@ -43,13 +43,13 @@ class BasicAuth(Auth):
         """Returns user email and password from decoded base64"""
         if type(decoded_base64_authorization_header) == str:
             pattern = re.compile(r'(?P<email>[^:]+):(?P<password>.+)')
-            credentials = pattern.match(decoded_base64_authorization_header.strip())
+            credentials = pattern.match(
+                decoded_base64_authorization_header.strip())
             if credentials:
                 email = credentials.group('email')
                 password = credentials.group('password')
                 return email, password
         return None, None
-
 
     def user_object_from_credentials(self, user_email: str,
                                      user_pwd: str) -> TypeVar('User'):
